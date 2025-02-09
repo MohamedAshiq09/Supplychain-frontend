@@ -1,5 +1,5 @@
 import React from "react";
-import { ArrowRight, Robot, BarChart2, Shield, Zap } from "lucide-react";
+import { ArrowRight, BarChart2, Shield, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 
@@ -42,7 +42,7 @@ const HomePage = () => {
             <Card className="border-0 shadow-lg">
               <CardContent className="pt-6">
                 <div className="mb-4 text-blue-600">
-                  <Robot className="h-8 w-8" />
+                  {/* //<Robot className="h-8 w-8" /> */}
                 </div>
                 <h3 className="text-xl font-semibold mb-2">
                   Robotic Operations
