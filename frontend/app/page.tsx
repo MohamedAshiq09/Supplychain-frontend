@@ -74,9 +74,9 @@ const HomePage = () => {
           <div className="text-center">
             <Badge
               variant="outline"
-              className="mb-4 border-blue-500 text-3xl animate-pulse text-blue-400"
+              className="mb-4 border-blue-500 text-3xl  text-blue-400"
             >
-              Next-Gen Supply Chain Technology vanakam da mapla
+              Next-Gen Supply Chain Technology
             </Badge>
             <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-300 to-blue-600">
               Autonomous Supply Chain Ecosystem

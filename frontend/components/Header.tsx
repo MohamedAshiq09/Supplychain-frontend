@@ -14,7 +14,7 @@ const Header = () => {
         <div className="flex items-center">
           <div className="text-blue-500 font-bold text-2xl flex items-center gap-2">
             <Bot className="h-8 w-8" />
-            RoboChain
+            AutoPredict
           </div>
         </div>
 
@@ -65,7 +65,7 @@ const Header = () => {
       </div>
 
       <motion.div
-        className="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-blue-500 to-transparent"
+        className="absolute bottom-0 left-0 w-full h-[3px] bg-gradient-to-r from-transparent via-blue-500 to-transparent"
         initial={{ x: "-100%" }}
         animate={{
           x:
