@@ -11,16 +11,15 @@ import {
   Cpu,
   Workflow,
   Database,
-  PieChart,
   Settings,
   Globe,
   Rocket,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
+// import { Separator } from "@/components/ui/separator";
 
 const HomePage = () => {
   const [activeTab, setActiveTab] = useState("features");
