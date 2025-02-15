@@ -54,18 +54,17 @@ const predictionData = [
 
 // Sidebar links configuration
 const sidebarLinks = [
-  { icon: Box, label: "Overview", href: "/dashboard" }, // Updated href
-  { icon: Truck, label: "Supply Chain", href: "/supply-chain" }, // Updated href
-  { icon: Globe, label: "IoT Network", href: "/iot" }, // Updated href
-  { icon: Shield, label: "Smart Contracts", href: "/smart-contracts" }, // Updated href
-  { icon: BarChart2, label: "Predictions", href: "/predictions" }, // Updated href
-  { icon: Users, label: "Stakeholders", href: "/stakeholders" }, // Updated href
-  { icon: Settings, label: "Settings", href: "/settings" }, // Updated href
+  { icon: Box, label: "Overview", href: "/dashboard" },
+  { icon: Truck, label: "Supply Chain", href: "/supply-chain" },
+  { icon: Globe, label: "IoT Network", href: "/iot" },
+  { icon: Shield, label: "Smart Contracts", href: "/smart-contracts" },
+  { icon: BarChart2, label: "Predictions", href: "/predictions" },
+  { icon: Users, label: "Stakeholders", href: "/stakeholders" },
+  { icon: Settings, label: "Settings", href: "/settings" },
 ];
 
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState("overview");
-  const router = useRouter();
 
   // Stats cards data
   const statsCards = [
