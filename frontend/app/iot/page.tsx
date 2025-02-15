@@ -113,8 +113,24 @@ const IoTManagement = () => {
     <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-blue-950">
       <Header />
 
-      <div className="pt-[11vh] px-6 mt-7">
-        <div className="max-w-7xl mx-auto">
+      <div className="pt-[11vh] px-6  flex ">
+        {/* sidebar */}
+        <div className="w-64 bg-gray-900 bg-opacity-60 backdrop-blur-lg p-4 border-r  border-gray-800">
+          <nav className="space-y-2 mt-1">
+            {sidebarLinks.map((link) => (
+              <Button
+                key={link.label}
+                variant="ghost"
+                className="w-full justify-start gap-2 text-gray-300 hover:text-white hover:bg-gray-800"
+              >
+                <link.icon className="h-5 w-5" />
+                {link.label}
+              </Button>
+            ))}
+          </nav>
+        </div>
+
+        <div className="max-w-7xl mx-auto mt-5 ">
           {/* Page Header */}
           <div className="flex justify-between items-center mb-6">
             <div>
@@ -217,7 +233,7 @@ const IoTManagement = () => {
           </Card>
 
           {/* Device List Section */}
-          <Card className="bg-gray-800/50 border-gray-700 ">
+          <Card className="bg-gray-800/50 border-gray-700 mb-4 ">
             <CardHeader>
               <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <CardTitle className="text-white">Connected Devices</CardTitle>
