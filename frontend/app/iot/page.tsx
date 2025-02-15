@@ -12,7 +12,6 @@ import {
   Radio,
   RefreshCcw,
   Plus,
-  Search,
   Truck,
   Globe,
   Shield,
