@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import {
   BarChart2,
   Box,
-  Clock,
   Cpu,
   Database,
   Globe,
@@ -16,7 +15,6 @@ import {
   ThermometerSun,
   Truck,
   Users,
-  Wallet,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
