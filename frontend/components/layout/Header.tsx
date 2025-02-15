@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Bot } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
+import Link from "next/link";
 
 const Header = () => {
   const [hoveredLink, setHoveredLink] = useState<string | null>(null);
@@ -14,7 +15,7 @@ const Header = () => {
         <div className="flex items-center">
           <div className="text-blue-500 font-bold text-2xl flex items-center gap-2">
             <Bot className="h-8 w-8" />
-            AutoPredict
+            SupplyChAin
           </div>
         </div>
 
@@ -24,24 +25,24 @@ const Header = () => {
             onMouseLeave={() => setHoveredLink(null)}
             className="relative flex items-center"
           >
-            <a
-              href="#"
+            <Link
+              href="/"
               className="text-gray-300 hover:text-white transition duration-300 text-lg"
             >
               Home
-            </a>
+            </Link>
           </div>
           <div
             onMouseEnter={() => setHoveredLink("dashboard")}
             onMouseLeave={() => setHoveredLink(null)}
             className="relative flex items-center"
           >
-            <a
-              href="#"
+            <Link
+              href="/dashboard"
               className="text-gray-300 hover:text-white transition duration-300 text-lg"
             >
               Dashboard
-            </a>
+            </Link>
           </div>
           <div
             onMouseEnter={() => setHoveredLink("markets")}
