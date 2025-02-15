@@ -129,7 +129,7 @@ const IoTManagement = () => {
           </nav>
         </div>
 
-        <div className="max-w-7xl mx-auto mt-5 ">
+        <div className="max-w-9xl mx-auto mt-5 ">
           {/* Page Header */}
           <div className="flex justify-between items-center mb-6">
             <div>

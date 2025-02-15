@@ -1,5 +1,5 @@
 "use client";
-
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import {
   BarChart2,
@@ -30,6 +30,7 @@ import {
   Tooltip,
   CartesianGrid,
 } from "recharts";
+import Link from "next/link"; // Import Link from next/link
 
 // Mock data for charts
 const performanceData = [
@@ -53,17 +54,18 @@ const predictionData = [
 
 // Sidebar links configuration
 const sidebarLinks = [
-  { icon: Box, label: "Overview", href: "#" },
-  { icon: Truck, label: "Supply Chain", href: "#" },
-  { icon: Globe, label: "IoT Network", href: "#" },
-  { icon: Shield, label: "Smart Contracts", href: "#" },
-  { icon: BarChart2, label: "Predictions", href: "#" },
-  { icon: Users, label: "Stakeholders", href: "#" },
-  { icon: Settings, label: "Settings", href: "#" },
+  { icon: Box, label: "Overview", href: "/dashboard" }, // Updated href
+  { icon: Truck, label: "Supply Chain", href: "/supply-chain" }, // Updated href
+  { icon: Globe, label: "IoT Network", href: "/iot" }, // Updated href
+  { icon: Shield, label: "Smart Contracts", href: "/smart-contracts" }, // Updated href
+  { icon: BarChart2, label: "Predictions", href: "/predictions" }, // Updated href
+  { icon: Users, label: "Stakeholders", href: "/stakeholders" }, // Updated href
+  { icon: Settings, label: "Settings", href: "/settings" }, // Updated href
 ];
 
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState("overview");
+  const router = useRouter();
 
   // Stats cards data
   const statsCards = [
@@ -106,14 +108,15 @@ const Dashboard = () => {
         <div className="w-64 bg-gray-900 bg-opacity-60 backdrop-blur-lg p-4 border-r  border-gray-800">
           <nav className="space-y-2 mt-6">
             {sidebarLinks.map((link) => (
-              <Button
-                key={link.label}
-                variant="ghost"
-                className="w-full justify-start gap-2 text-gray-300 hover:text-white hover:bg-gray-800"
-              >
-                <link.icon className="h-5 w-5" />
-                {link.label}
-              </Button>
+              <Link href={link.href} key={link.label} passHref>
+                <Button
+                  variant="ghost"
+                  className="w-full justify-start gap-2 text-gray-300 hover:text-white hover:bg-gray-800"
+                >
+                  <link.icon className="h-5 w-5" />
+                  {link.label}
+                </Button>
+              </Link>
             ))}
           </nav>
         </div>
