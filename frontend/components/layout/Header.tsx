@@ -2,9 +2,9 @@
 
 import React, { useState } from "react";
 import { Bot } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import ConnectWallet from "@/components/wallet/ConnectWallet";
 
 const Header = () => {
   const [hoveredLink, setHoveredLink] = useState<string | null>(null);
@@ -59,9 +59,7 @@ const Header = () => {
         </nav>
 
         <div className="hidden md:flex items-center">
-          <Button className="bg-blue-600 hover:bg-blue-700 text-white">
-            Connect Wallet
-          </Button>
+          <ConnectWallet />
         </div>
       </div>
 
