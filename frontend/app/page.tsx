@@ -520,9 +520,8 @@ const HomePage = () => {
               <Button
                 variant="outline"
                 size="lg"
-                className="border-teal-500 text-teal-500 hover:bg-teal-950/30 rounded-full px-8 py-6 text-lg
-                         transition-all hover:scale-105"
-              >
+                className="border-teal-500 text-teal-500 hover:bg-teal-500 hover:text-white hover:border-black rounded-full px-8 py-6 text-lg transition-all hover:scale-105"
+                >
                 <Snowflake className="mr-2 h-5 w-5" />
                 View Demo
               </Button>
