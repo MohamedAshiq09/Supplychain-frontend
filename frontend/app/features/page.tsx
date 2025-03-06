@@ -91,11 +91,15 @@
 //   );
 // }
 
+
+
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
+import { getBatchDetails, createBatch, recordTemperature } from "../../lib/contracts";
+
 
 // Utility Components
 interface MetricCardProps {
@@ -203,40 +207,141 @@ const AlertCard = ({ title, content, action, timestamp }: AlertCardProps) => (
   </motion.div>
 );
 
-// Feature Components
-const BatchManagement = () => (
-  <div className="space-y-6">
-    <h2 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-      Active Batches
-    </h2>
-    
-    {/* Batch Creation Metrics */}
-    <div className="grid grid-cols-4 gap-4">
-      <MetricCard title="Total Batches" value="103" />
-      <MetricCard title="Avg Creation Time" value="12.13s" />
-      <MetricCard title="Avg Gas Cost" value="0.00189 SNC" />
-      <MetricCard title="Success Rate" value="100%" />
-    </div>
-
-    {/* Recent Batch Timeline */}
-    <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-4 rounded-lg border border-gray-700 shadow-lg">
-      <h3 className="text-lg font-semibold mb-4">Recent Batch Activity</h3>
-      <Timeline items={[
-        {
-          time: "2m ago",
-          title: "Batch #103 Created",
-          content: "Strawberry • 0x2b73...c481"
-        },
-        {
-          time: "15m ago",
-          title: "Batch #102 Completed",
-          content: "6 temp recordings • 72h shelf life"
-        }
-      ]}/>
+// Agent Status Component
+const AgentStatus = () => (
+  <div className="bg-gradient-to-br from-blue-900/20 to-blue-800/20 p-4 rounded-lg border border-blue-700/50 shadow-lg">
+    <h3 className="text-lg font-semibold">ZerePy Agent Status</h3>
+    <p className="text-sm text-gray-400">All systems operational</p>
+    <div className="flex items-center mt-2">
+      <div className="w-2 h-2 bg-green-500 rounded-full mr-2" />
+      <p className="text-sm text-gray-400">Active</p>
     </div>
   </div>
 );
 
+// Feature Components
+const BatchManagement = () => {
+  const [batchId, setBatchId] = useState<number>(0);
+  const [batchDetails, setBatchDetails] = useState<any>(null);
+  const [newBatchType, setNewBatchType] = useState<string>("Strawberry");
+
+  // Fetch batch details
+  const fetchBatchDetails = async () => {
+    const details = await getBatchDetails(batchId);
+    setBatchDetails(details);
+  };
+
+  // Create a new batch
+  const handleCreateBatch = async () => {
+    const tx = await createBatch(newBatchType);
+    alert(`Batch created successfully! TX Hash: ${tx.hash}`);
+  };
+
+  // Record temperature
+  const handleRecordTemperature = async () => {
+    const temperature = 2.5; // Example temperature
+    const location = "Cold Storage"; // Example location
+    const tx = await recordTemperature(batchId, temperature, location);
+    alert(`Temperature recorded successfully! TX Hash: ${tx.hash}`);
+  };
+
+  useEffect(() => {
+    if (batchId) {
+      fetchBatchDetails();
+    }
+  }, [batchId]);
+
+  return (
+    <div className="space-y-6">
+      <h2 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+        Active Batches
+      </h2>
+
+      {/* Agent Status */}
+      <AgentStatus />
+
+      {/* Batch Creation Metrics */}
+      <div className="grid grid-cols-4 gap-4">
+        <MetricCard title="Total Batches" value="103" />
+        <MetricCard title="Avg Creation Time" value="12.13s" />
+        <MetricCard title="Avg Gas Cost" value="0.00189 SNC" />
+        <MetricCard title="Success Rate" value="100%" />
+      </div>
+
+      {/* Create New Batch */}
+      <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-4 rounded-lg border border-gray-700 shadow-lg">
+        <h3 className="text-lg font-semibold mb-4">Create New Batch</h3>
+        <input
+          type="text"
+          placeholder="Enter Berry Type"
+          value={newBatchType}
+          onChange={(e) => setNewBatchType(e.target.value)}
+          className="bg-gray-700 text-white p-2 rounded-lg mb-2"
+        />
+        <button
+          onClick={handleCreateBatch}
+          className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
+        >
+          Create Batch
+        </button>
+      </div>
+
+      {/* Fetch Batch Details */}
+      <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-4 rounded-lg border border-gray-700 shadow-lg">
+        <h3 className="text-lg font-semibold mb-4">Fetch Batch Details</h3>
+        <input
+          type="number"
+          placeholder="Enter Batch ID"
+          value={batchId}
+          onChange={(e) => setBatchId(Number(e.target.value))}
+          className="bg-gray-700 text-white p-2 rounded-lg mb-2"
+        />
+        <button
+          onClick={fetchBatchDetails}
+          className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
+        >
+          Fetch Details
+        </button>
+        {batchDetails && (
+          <div className="mt-4">
+            <h4 className="text-lg font-semibold">Batch Details</h4>
+            <p>Batch ID: {batchDetails.batchId}</p>
+            <p>Berry Type: {batchDetails.berryType}</p>
+            <p>Quality Score: {batchDetails.qualityScore}</p>
+          </div>
+        )}
+      </div>
+
+      {/* Record Temperature */}
+      <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-4 rounded-lg border border-gray-700 shadow-lg">
+        <h3 className="text-lg font-semibold mb-4">Record Temperature</h3>
+        <button
+          onClick={handleRecordTemperature}
+          className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
+        >
+          Record Temperature
+        </button>
+      </div>
+
+      {/* Recent Batch Timeline */}
+      <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-4 rounded-lg border border-gray-700 shadow-lg">
+        <h3 className="text-lg font-semibold mb-4">Recent Batch Activity</h3>
+        <Timeline items={[
+          {
+            time: "2m ago",
+            title: "Batch #103 Created",
+            content: "Strawberry • 0x2b73...c481"
+          },
+          {
+            time: "15m ago",
+            title: "Batch #102 Completed",
+            content: "6 temp recordings • 72h shelf life"
+          }
+        ]}/>
+      </div>
+    </div>
+  );
+};
 // Temperature Data for Graph
 const temperatureData = [
   { time: "00:00", temp: 2.0 },
@@ -253,6 +358,9 @@ const TemperatureMonitoring = () => (
       Temperature Analysis
     </h2>
     
+    {/* Agent Status */}
+    <AgentStatus />
+
     {/* Current Status Grid */}
     <div className="grid grid-cols-3 gap-4">
       <StatusIndicator 
@@ -346,6 +454,9 @@ const QualityAssessment = () => (
       Quality Control
     </h2>
     
+    {/* Agent Status */}
+    <AgentStatus />
+
     {/* Quality Score Distribution */}
     <div className="grid grid-cols-2 gap-4">
       <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-4 rounded-lg border border-gray-700 shadow-lg">
@@ -381,6 +492,9 @@ const ReportingAnalytics = () => (
       Analytics Overview
     </h2>
     
+    {/* Agent Status */}
+    <AgentStatus />
+
     {/* System Health Metrics */}
     <div className="grid grid-cols-3 gap-4">
       <MetricCard 
