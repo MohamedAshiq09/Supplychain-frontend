@@ -98,7 +98,9 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
-import { getBatchDetails, createBatch, recordTemperature } from "../../lib/contracts";
+import { registerSupplier, processAgentRecommendation, getSupplierDetails } from "../../lib/contracts";
+import ConnectWallet from "@/components/wallet/ConnectWallet";
+
 
 
 // Utility Components
@@ -221,127 +223,133 @@ const AgentStatus = () => (
 
 // Feature Components
 const BatchManagement = () => {
+  const [supplierAddress, setSupplierAddress] = useState<string>("");
+  const [supplierDetails, setSupplierDetails] = useState<any>(null);
   const [batchId, setBatchId] = useState<number>(0);
-  const [batchDetails, setBatchDetails] = useState<any>(null);
-  const [newBatchType, setNewBatchType] = useState<string>("Strawberry");
 
-  // Fetch batch details
-  const fetchBatchDetails = async () => {
-    const details = await getBatchDetails(batchId);
-    setBatchDetails(details);
-  };
-
-  // Create a new batch
-  const handleCreateBatch = async () => {
-    const tx = await createBatch(newBatchType);
-    alert(`Batch created successfully! TX Hash: ${tx.hash}`);
-  };
-
-  // Record temperature
-  const handleRecordTemperature = async () => {
-    const temperature = 2.5; // Example temperature
-    const location = "Cold Storage"; // Example location
-    const tx = await recordTemperature(batchId, temperature, location);
-    alert(`Temperature recorded successfully! TX Hash: ${tx.hash}`);
-  };
-
-  useEffect(() => {
-    if (batchId) {
-      fetchBatchDetails();
+  // Register Supplier
+  const handleRegisterSupplier = async () => {
+    try {
+      const tx = await registerSupplier();
+      alert(`Supplier registered! TX Hash: ${tx.hash}`);
+    } catch (error) {
+      console.error("Registration failed:", error);
+      alert(`Error: ${error instanceof Error ? error.message : "Unknown error"}`);
     }
-  }, [batchId]);
+  };
+
+  // Process Recommendation
+  const handleProcessRecommendation = async () => {
+    try {
+      const tx = await processAgentRecommendation(batchId);
+      alert(`Recommendation processed! TX Hash: ${tx.hash}`);
+    } catch (error) {
+      console.error("Processing failed:", error);
+      alert(`Error: ${error instanceof Error ? error.message : "Unknown error"}`);
+    }
+  };
+
+  // Get Supplier Details
+  const handleGetSupplierDetails = async () => {
+    try {
+      const details = await getSupplierDetails(supplierAddress);
+      setSupplierDetails(details);
+    } catch (error) {
+      console.error("Fetch failed:", error);
+      alert(`Error: ${error instanceof Error ? error.message : "Unknown error"}`);
+    }
+  };
 
   return (
     <div className="space-y-6">
       <h2 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-        Active Batches
+        Supplier Management
       </h2>
 
-      {/* Agent Status */}
       <AgentStatus />
 
-      {/* Batch Creation Metrics */}
-      <div className="grid grid-cols-4 gap-4">
-        <MetricCard title="Total Batches" value="103" />
-        <MetricCard title="Avg Creation Time" value="12.13s" />
-        <MetricCard title="Avg Gas Cost" value="0.00189 SNC" />
-        <MetricCard title="Success Rate" value="100%" />
+      <div className="grid grid-cols-3 gap-4">
+        <MetricCard title="Total Suppliers" value="89" />
+        <MetricCard title="Avg Reputation" value="84/100" />
+        <MetricCard title="Active Batches" value="23" />
       </div>
 
-      {/* Create New Batch */}
       <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-4 rounded-lg border border-gray-700 shadow-lg">
-        <h3 className="text-lg font-semibold mb-4">Create New Batch</h3>
-        <input
-          type="text"
-          placeholder="Enter Berry Type"
-          value={newBatchType}
-          onChange={(e) => setNewBatchType(e.target.value)}
-          className="bg-gray-700 text-white p-2 rounded-lg mb-2"
-        />
-        <button
-          onClick={handleCreateBatch}
-          className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
-        >
-          Create Batch
-        </button>
-      </div>
+        <h3 className="text-lg font-semibold mb-4">Supplier Actions</h3>
+        
+        <div className="space-y-4">
+          <div>
+            <button
+              onClick={handleRegisterSupplier}
+              className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 w-full"
+            >
+              Register Supplier
+            </button>
+          </div>
 
-      {/* Fetch Batch Details */}
-      <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-4 rounded-lg border border-gray-700 shadow-lg">
-        <h3 className="text-lg font-semibold mb-4">Fetch Batch Details</h3>
-        <input
-          type="number"
-          placeholder="Enter Batch ID"
-          value={batchId}
-          onChange={(e) => setBatchId(Number(e.target.value))}
-          className="bg-gray-700 text-white p-2 rounded-lg mb-2"
-        />
-        <button
-          onClick={fetchBatchDetails}
-          className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
-        >
-          Fetch Details
-        </button>
-        {batchDetails && (
-          <div className="mt-4">
-            <h4 className="text-lg font-semibold">Batch Details</h4>
-            <p>Batch ID: {batchDetails.batchId}</p>
-            <p>Berry Type: {batchDetails.berryType}</p>
-            <p>Quality Score: {batchDetails.qualityScore}</p>
+          <div className="space-y-2">
+            <input
+              type="number"
+              placeholder="Enter Batch ID"
+              value={batchId}
+              onChange={(e) => setBatchId(Number(e.target.value))}
+              className="bg-gray-700 text-white p-2 rounded-lg w-full"
+            />
+            <button
+              onClick={handleProcessRecommendation}
+              className="bg-purple-500 text-white px-4 py-2 rounded-lg hover:bg-purple-600 w-full"
+            >
+              Process Recommendation
+            </button>
+          </div>
+
+          <div className="space-y-2">
+            <input
+              type="text"
+              placeholder="Supplier Address"
+              value={supplierAddress}
+              onChange={(e) => setSupplierAddress(e.target.value)}
+              className="bg-gray-700 text-white p-2 rounded-lg w-full"
+            />
+            <button
+              onClick={handleGetSupplierDetails}
+              className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 w-full"
+            >
+              Get Supplier Details
+            </button>
+          </div>
+        </div>
+
+        {supplierDetails && (
+          <div className="mt-4 p-4 bg-gray-700 rounded-lg">
+            <h4 className="text-lg font-semibold mb-2">Supplier Details</h4>
+            <p>Address: {supplierDetails.account}</p>
+            <p>Registered: {supplierDetails.isRegistered ? "Yes" : "No"}</p>
+            <p>Reputation: {supplierDetails.reputation.toString()}</p>
+            <p>Total Batches: {supplierDetails.totalBatches.toString()}</p>
           </div>
         )}
       </div>
 
-      {/* Record Temperature */}
       <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-4 rounded-lg border border-gray-700 shadow-lg">
-        <h3 className="text-lg font-semibold mb-4">Record Temperature</h3>
-        <button
-          onClick={handleRecordTemperature}
-          className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
-        >
-          Record Temperature
-        </button>
-      </div>
-
-      {/* Recent Batch Timeline */}
-      <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-4 rounded-lg border border-gray-700 shadow-lg">
-        <h3 className="text-lg font-semibold mb-4">Recent Batch Activity</h3>
+        <h3 className="text-lg font-semibold mb-4">Recent Supplier Activity</h3>
         <Timeline items={[
           {
-            time: "2m ago",
-            title: "Batch #103 Created",
-            content: "Strawberry • 0x2b73...c481"
+            time: "15m ago",
+            title: "Supplier Registered",
+            content: "0x1e43...d8ff • Reputation: 100"
           },
           {
-            time: "15m ago",
-            title: "Batch #102 Completed",
-            content: "6 temp recordings • 72h shelf life"
+            time: "2h ago",
+            title: "Batch Recommendation Processed",
+            content: "Batch #102 • Action: Expedite"
           }
         ]}/>
       </div>
     </div>
   );
 };
+
 // Temperature Data for Graph
 const temperatureData = [
   { time: "00:00", temp: 2.0 },

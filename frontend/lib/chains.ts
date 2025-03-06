@@ -1,20 +1,26 @@
-import { Chain } from "wagmi";
+import { Chain } from "viem/chains";
 
-export const SonicTestnet: Chain = {
+export const sonicBlazeTestnet: Chain = {
   id: 57054,
-  name: "Sonic Testnet",
-  network: "sonic",
+  name: "Sonic Blaze Testnet",
   nativeCurrency: {
-    decimals: 18,
     name: "Sonic",
-    symbol: "SONIC",
+    symbol: "S",
+    decimals: 18,
   },
   rpcUrls: {
-    public: { http: ["https://testnet.sonicscan.org"] },
-    default: { http: ["https://testnet.sonicscan.org"] },
+    default: {
+      http: ["https://rpc.blaze.soniclabs.com"],
+    },
+    public: {
+      http: ["https://rpc.blaze.soniclabs.com"],
+    },
   },
   blockExplorers: {
-    default: { name: "SonicScan", url: "https://testnet.sonicscan.org" },
+    default: {
+      name: "Sonic Blaze Explorer",
+      url: "https://blaze.soniclabs.com",
+    },
   },
   testnet: true,
 };
