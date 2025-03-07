@@ -32,6 +32,20 @@ const Header = () => {
               Home
             </Link>
           </div>
+
+          <div
+            onMouseEnter={() => setHoveredLink("features")}
+            onMouseLeave={() => setHoveredLink(null)}
+            className="relative flex items-center"
+          >
+            <Link
+              href="/features"
+              className="text-gray-300 hover:text-white transition duration-300 text-lg"
+            >
+              Features
+            </Link>
+          </div>
+
           <div
             onMouseEnter={() => setHoveredLink("dashboard")}
             onMouseLeave={() => setHoveredLink(null)}
@@ -44,18 +58,6 @@ const Header = () => {
               Dashboard
             </Link>
           </div>
-          <div
-            onMouseEnter={() => setHoveredLink("markets")}
-            onMouseLeave={() => setHoveredLink(null)}
-            className="relative flex items-center"
-          >
-            <a
-              href="#"
-              className="text-gray-300 hover:text-white transition duration-300 text-lg"
-            >
-              Markets
-            </a>
-          </div>
         </nav>
 
         <div className="hidden md:flex items-center">
@@ -63,6 +65,7 @@ const Header = () => {
         </div>
       </div>
 
+      {/* Animated Underline */}
       <motion.div
         className="absolute bottom-0 left-0 w-full h-[3px] bg-gradient-to-r from-transparent via-blue-500 to-transparent"
         initial={{ x: "-100%" }}
@@ -70,9 +73,9 @@ const Header = () => {
           x:
             hoveredLink === "home"
               ? "-25%"
-              : hoveredLink === "dashboard"
+              : hoveredLink === "features"
               ? "0%"
-              : hoveredLink === "markets"
+              : hoveredLink === "dashboard"
               ? "25%"
               : "0%",
         }}
@@ -83,3 +86,5 @@ const Header = () => {
 };
 
 export default Header;
+
+
