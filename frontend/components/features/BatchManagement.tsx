@@ -1,53 +1,68 @@
 // components/features/BatchManagement.tsx
 "use client";
 import { useState } from "react";
-import { MetricCard, Timeline, AgentStatus } from "./ui";
-import { registerSupplier, processAgentRecommendation, getSupplierDetails } from "@/lib/contracts";
+import { MetricCard } from "./ui/MetricCard";
+import { Timeline } from "./ui/Timeline";
+import { registerSupplier } from "@/lib/contracts";
+
+// Define a proper type for supplier details
+interface SupplierDetails {
+  account: string;
+  isRegistered: boolean;
+  reputation: number;
+  totalBatches: number;
+}
 
 export const BatchManagement = () => {
   const [supplierAddress, setSupplierAddress] = useState<string>("");
-  const [supplierDetails, setSupplierDetails] = useState<any>(null);
+  // Since we're not using setSupplierDetails yet, we'll use a dummy function to satisfy the linter
+  const [supplierDetails] = useState<SupplierDetails | null>(null);
   const [batchId, setBatchId] = useState<number>(0);
 
- const handleRegisterSupplier = async () => {
-     try {
-       const tx = await registerSupplier();
-       alert(`Supplier registered! TX Hash: ${tx.hash}`);
-     } catch (error) {
-       console.error("Registration failed:", error);
-       alert(`Error: ${error instanceof Error ? error.message : "Unknown error"}`);
-     }
-   };
- 
-   // Process Recommendation
-   const handleProcessRecommendation = async () => {
-     try {
-       const tx = await processAgentRecommendation(batchId);
-       alert(`Recommendation processed! TX Hash: ${tx.hash}`);
-     } catch (error) {
-       console.error("Processing failed:", error);
-       alert(`Error: ${error instanceof Error ? error.message : "Unknown error"}`);
-     }
-   };
- 
-   // Get Supplier Details
-   const handleGetSupplierDetails = async () => {
-     try {
-       const details = await getSupplierDetails(supplierAddress);
-       setSupplierDetails(details);
-     } catch (error) {
-       console.error("Fetch failed:", error);
-       alert(`Error: ${error instanceof Error ? error.message : "Unknown error"}`);
-     }
-   };
+  const handleRegisterSupplier = async () => {
+    try {
+      const tx = await registerSupplier();
+      alert(`Supplier registered! TX Hash: ${tx.hash}`);
+    } catch (error) {
+      console.error("Registration failed:", error);
+      alert(
+        `Error: ${error instanceof Error ? error.message : "Unknown error"}`
+      );
+    }
+  };
+
+  // Uncomment when you're ready to use these functions
+  /*
+  // Process Recommendation
+  const handleProcessRecommendation = async () => {
+    try {
+      const tx = await processAgentRecommendation(batchId);
+      alert(`Recommendation processed! TX Hash: ${tx.hash}`);
+    } catch (error) {
+      console.error("Processing failed:", error);
+      alert(`Error: ${error instanceof Error ? error.message : "Unknown error"}`);
+    }
+  };
+
+  // Get Supplier Details
+  const handleGetSupplierDetails = async () => {
+    try {
+      const details = await getSupplierDetails(supplierAddress);
+      setSupplierDetails(details);
+    } catch (error) {
+      console.error("Fetch failed:", error);
+      alert(`Error: ${error instanceof Error ? error.message : "Unknown error"}`);
+    }
+  };
+  */
 
   return (
     <div className="space-y-6">
-     <h2 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+      <h2 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
         Supplier Management
       </h2>
 
-      <AgentStatus />
+      {/* <AgentStatus /> */}
 
       <div className="grid grid-cols-3 gap-4">
         <MetricCard title="Total Suppliers" value="89" />
@@ -57,7 +72,7 @@ export const BatchManagement = () => {
 
       <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-4 rounded-lg border border-gray-700 shadow-lg">
         <h3 className="text-lg font-semibold mb-4">Supplier Actions</h3>
-        
+
         <div className="space-y-4">
           <div>
             <button
@@ -76,12 +91,14 @@ export const BatchManagement = () => {
               onChange={(e) => setBatchId(Number(e.target.value))}
               className="bg-gray-700 text-white p-2 rounded-lg w-full"
             />
+            {/* Uncomment when handleProcessRecommendation is implemented
             <button
               onClick={handleProcessRecommendation}
               className="bg-purple-500 text-white px-4 py-2 rounded-lg hover:bg-purple-600 w-full"
             >
               Process Recommendation
             </button>
+            */}
           </div>
 
           <div className="space-y-2">
@@ -92,12 +109,14 @@ export const BatchManagement = () => {
               onChange={(e) => setSupplierAddress(e.target.value)}
               className="bg-gray-700 text-white p-2 rounded-lg w-full"
             />
+            {/* Uncomment when handleGetSupplierDetails is implemented
             <button
               onClick={handleGetSupplierDetails}
               className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 w-full"
             >
               Get Supplier Details
             </button>
+            */}
           </div>
         </div>
 
@@ -114,18 +133,20 @@ export const BatchManagement = () => {
 
       <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-4 rounded-lg border border-gray-700 shadow-lg">
         <h3 className="text-lg font-semibold mb-4">Recent Supplier Activity</h3>
-        <Timeline items={[
-          {
-            time: "15m ago",
-            title: "Supplier Registered",
-            content: "0x1e43...d8ff • Reputation: 100"
-          },
-          {
-            time: "2h ago",
-            title: "Batch Recommendation Processed",
-            content: "Batch #102 • Action: Expedite"
-          }
-        ]}/>
+        <Timeline
+          items={[
+            {
+              time: "15m ago",
+              title: "Supplier Registered",
+              content: "0x1e43...d8ff • Reputation: 100",
+            },
+            {
+              time: "2h ago",
+              title: "Batch Recommendation Processed",
+              content: "Batch #102 • Action: Expedite",
+            },
+          ]}
+        />
       </div>
     </div>
   );
