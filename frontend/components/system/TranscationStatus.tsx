@@ -1,5 +1,3 @@
-import React from "react";
-
 interface Transaction {
   transaction_hash?: string;
   transaction_url?: string;
