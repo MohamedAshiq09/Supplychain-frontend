@@ -114,11 +114,18 @@ const TemperatureChart: React.FC<TemperatureChartProps> = ({ data }) => {
           stroke="#2563eb"
           activeDot={{ r: 8 }}
           strokeWidth={2}
-          dot={{
-            stroke: (entry) => (entry.isBreached ? "#ef4444" : "#2563eb"),
-            strokeWidth: 2,
-            r: 4,
-            fill: (entry) => (entry.isBreached ? "#ef4444" : "#fff"),
+          dot={(props) => {
+            const { cx, cy, payload } = props;
+            return (
+              <circle
+                cx={cx}
+                cy={cy}
+                r={4}
+                stroke={payload.isBreached ? "#ef4444" : "#2563eb"}
+                strokeWidth={2}
+                fill={payload.isBreached ? "#ef4444" : "#fff"}
+              />
+            );
           }}
         />
       </LineChart>
