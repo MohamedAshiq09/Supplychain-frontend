@@ -73,9 +73,11 @@ const TemperatureChart: React.FC<TemperatureChartProps> = ({ data }) => {
               return (
                 <div className="bg-white p-3 border rounded shadow-lg">
                   <p className="text-gray-600 text-sm">{label}</p>
-                  <p className="text-blue-600 font-medium">{`${payload[0].value?.toFixed(
-                    1
-                  )}°C`}</p>
+                  <p className="text-blue-600 font-medium">{`${
+                    typeof payload[0].value === "number"
+                      ? payload[0].value.toFixed(1)
+                      : payload[0].value
+                  }°C`}</p>
                   {payload[0].payload.location && (
                     <p className="text-gray-500 text-xs">{`Location: ${payload[0].payload.location}`}</p>
                   )}
