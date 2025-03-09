@@ -1,5 +1,3 @@
-import React from "react";
-
 interface TemperatureReading {
   timestamp: string | number;
   temperature: number;
