@@ -1,18 +1,21 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import {
   Thermometer,
   Bot,
   Globe,
   ScrollText,
+  LineChart,
   Zap,
+  Clock,
+  Box,
   MapPin,
   Warehouse,
   Leaf,
   Coins,
-  GanttChartSquare,
+  GanttChartSquare
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -23,33 +26,33 @@ const HomePage = () => {
     {
       icon: Thermometer,
       title: "Smart Cold Chain Monitoring",
-      desc: "End-to-end IoT tracking with automated temperature adjustments",
+      desc: "End-to-end IoT tracking with automated temperature adjustments"
     },
     {
       icon: GanttChartSquare,
       title: "AI Demand Forecasting",
-      desc: "Prediction markets analyzing 15+ variables for accurate ordering",
+      desc: "Prediction markets analyzing 15+ variables for accurate ordering"
     },
     {
       icon: ScrollText,
       title: "Auto-Executing Contracts",
-      desc: "Blockchain smart contracts that trigger payments upon delivery conditions",
+      desc: "Blockchain smart contracts that trigger payments upon delivery conditions"
     },
     {
       icon: Bot,
       title: "Automated Handling",
-      desc: "Robotic systems maintaining optimal storage/retrieval patterns",
+      desc: "Robotic systems maintaining optimal storage/retrieval patterns"
     },
     {
       icon: Globe,
       title: "DAO Governance",
-      desc: "Stakeholder voting on network parameters and upgrades",
+      desc: "Stakeholder voting on network parameters and upgrades"
     },
     {
       icon: MapPin,
       title: "Last-Mile Optimization",
-      desc: "Dynamic routing with real-time quality condition tracking",
-    },
+      desc: "Dynamic routing with real-time quality condition tracking"
+    }
   ];
 
   return (
@@ -82,8 +85,7 @@ const HomePage = () => {
               animate={{ scale: 1, opacity: 1 }}
               className="text-5xl md:text-7xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-blue-600 leading-tight"
             >
-              Reinventing Fresh Produce
-              <br className="hidden md:block" />
+              Reinventing Fresh Produce<br className="hidden md:block" /> 
               <span className="text-blue-400">Supply Chains</span>
             </motion.h1>
 
@@ -93,9 +95,8 @@ const HomePage = () => {
               transition={{ delay: 0.2 }}
               className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto"
             >
-              Blockchain-coordinated network combining IoT monitoring, robotic
-              handling, and crowd-powered forecasting to eliminate fresh food
-              waste
+              Blockchain-coordinated network combining IoT monitoring, robotic handling, 
+              and crowd-powered forecasting to eliminate fresh food waste
             </motion.p>
 
             <motion.div
@@ -116,7 +117,7 @@ const HomePage = () => {
                 variant="outline"
                 size="lg"
                 className="border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white hover:border-black rounded-full px-8 py-6 text-lg transition-all hover:scale-105"
-              >
+                >
                 <Warehouse className="mr-2 h-5 w-5" />
                 Case Studies
               </Button>
@@ -127,16 +128,14 @@ const HomePage = () => {
 
       {/* Impact Metrics Section */}
       <div className="relative z-10 bg-gray-900/50 backdrop-blur-lg py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-4 gap-6 text-center">
-            <motion.div
+     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+           <div className="grid md:grid-cols-4 gap-6 text-center">
+             <motion.div
               initial={{ scale: 0.9 }}
               whileInView={{ scale: 1 }}
               className="p-6 border-b-4 border-emerald-500"
             >
-              <div className="text-3xl font-bold text-emerald-400 mb-2">
-                30%
-              </div>
+              <div className="text-3xl font-bold text-emerald-400 mb-2">30%</div>
               <div className="text-gray-400">Reduced Transit Time</div>
             </motion.div>
             <motion.div
@@ -225,17 +224,12 @@ const HomePage = () => {
                 Stakeholder-governed network with incentive-aligned:
               </p>
               <div className="grid grid-cols-2 gap-4">
-                {["Farmers", "Distributors", "Retailers", "Consumers"].map(
-                  (role, i) => (
-                    <div
-                      key={i}
-                      className="flex items-center gap-2 p-2 bg-gray-800 rounded-lg"
-                    >
-                      <Coins className="h-4 w-4 text-blue-400" />
-                      <span className="text-gray-300">{role}</span>
-                    </div>
-                  )
-                )}
+                {['Farmers', 'Distributors', 'Retailers', 'Consumers'].map((role, i) => (
+                  <div key={i} className="flex items-center gap-2 p-2 bg-gray-800 rounded-lg">
+                    <Coins className="h-4 w-4 text-blue-400" />
+                    <span className="text-gray-300">{role}</span>
+                  </div>
+                ))}
               </div>
             </motion.div>
             <motion.div
@@ -244,16 +238,8 @@ const HomePage = () => {
               className="bg-gray-800 p-6 rounded-xl border border-blue-500/20"
             >
               <div className="space-y-4">
-                {[
-                  "Automated Payments",
-                  "Quality-based Pricing",
-                  "Carbon Credits",
-                  "Dispute Resolution",
-                ].map((item, i) => (
-                  <div
-                    key={i}
-                    className="flex items-center gap-3 p-3 hover:bg-gray-700/50 rounded-lg"
-                  >
+                {['Automated Payments', 'Quality-based Pricing', 'Carbon Credits', 'Dispute Resolution'].map((item, i) => (
+                  <div key={i} className="flex items-center gap-3 p-3 hover:bg-gray-700/50 rounded-lg">
                     <Leaf className="h-5 w-5 text-blue-400" />
                     <span className="text-gray-300">{item}</span>
                   </div>
@@ -268,3 +254,4 @@ const HomePage = () => {
 };
 
 export default HomePage;
+
